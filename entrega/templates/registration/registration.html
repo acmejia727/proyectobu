@@ -1,0 +1,74 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Cursos{% endblock title %}
+
+{% block content %}
+<h2>Registro</h2>
+<p>Si no estás registrado,
+    introduce tus datos personales y procederemos a crearte una cuenta de usuario.</p>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+{{ form.media }}
+<form method="post" enctype="multipart/form-data">
+<div class="row">
+<div class="col-12">
+  <p>Para poder registrase debe completar la siguiente información</p>
+</div>
+  <div class="col-6">
+<h4>Datos de Usuario</h4>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <span style='color:darkred'>{{error}}</span>
+
+
+        
+
+          <img src="{% static 'image/02.jpg' %}" width="100%" class="Responsive image rounded"  alt="">
+
+
+
+  </div>
+  <div class="col-6">
+<h4>Datos de Perfil</h4>
+      {{fromprofile.as_p }}
+      
+
+      <span style='color:darkred'>{{error}}</span>
+      {% if error != '' %}
+      <script>
+          alert("{{error}}")
+      </script>
+      {%endif%}
+      <div class="g-recaptcha" data-sitekey="6LeP3KwUAAAAAOUwO4EIncW4rELmaFCDJM6Wo-Er"></div>
+             <input type="checkbox" required> <label> Acepto las políticas de privacidad - Consulte nuestras <a href="/politica_privacidad/"> políticas de privacidad</a></label>
+
+
+      <button onclick="miFuncion()" class="btn btn-primary">Enviar</button>
+
+  </div>
+  <div class="col-12">
+      <br>
+
+  </div>
+
+
+</div>
+</form>
+<script>
+    function miFuncion() {
+        var response = grecaptcha.getResponse();
+        var x = document.getElementById("myDIV");
+        if(response.length == 0){
+            alert("Captcha no verificado");
+            event.preventDefault();
+  
+            return false;
+  
+        } else {
+  
+  
+        }
+    }
+  </script>
+{% endblock %}

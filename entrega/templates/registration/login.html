@@ -1,0 +1,96 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Cursos{% endblock title %}
+
+{% block content %}
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+
+
+ 
+  
+</form>
+
+<div role="main" class="main">
+
+    <section class="page-header page-header-classic">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col p-static">
+            <span class="page-header-title-border visible" style="width: 68.6406px;"></span><h1 data-title-border="">Inicio de sesión</h1>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col">
+
+          <div class="featured-boxes">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="featured-box featured-box-primary text-left mt-5" style="height: 368.188px;">
+                  <div class="box-content">
+                   
+                      <form method="post">
+                          {% csrf_token %}
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label class="font-weight-bold text-dark text-2">Usuario:</label>
+                          <input type="text"  name="username" class="form-control form-control-lg" required="">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <a class="float-right" href="/accounts/password_reset/">(Olvidé mi contraseña?)</a>
+                          <label class="font-weight-bold text-dark text-2">Contraseña:</label>
+                          <input type="password" name="password" class="form-control form-control-lg" required="">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-lg-6">
+                         
+                        </div>
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-success">
+                            <a class="close" href="#" data-dismiss="alert">×</a>
+    
+                            <p class="text-danger">{{ error }}</p>
+    
+                        </div>
+                        {% endfor %}
+                {% endif %}
+                        <div class="form-group col-lg-6">
+                            <button type="submit" class="btn btn-primary btn-modern float-right">Iniciar sesión</button>
+                          
+                        </div>
+                        <br>
+                        <p>Aun no tengo cuenta, deseo <a href="/registration/">Registrarme</a></p>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}
