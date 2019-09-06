@@ -5,10 +5,10 @@
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
-  <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'LogoUnimag.png' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Dashboard by Creative Tim
+    {% block title %}{% endblock title %}
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -20,6 +20,7 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static 'assets/demo/demo.css' %}" rel="stylesheet" />
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/83f37c6c82.js"></script>
 </head>
 
 <body class="">
@@ -32,61 +33,56 @@
         <a href="http://www.creative-tim.com" class="simple-text logo-mini">
          <img src="{% static 'escudo.png' %}" alt="">
         </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        <a href="/" class="simple-text logo-normal">
           BU Software v 0.1
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           {% if not user.username %}
-          <li class="active ">
-            <a href="./dashboard.html">
-              <i class="now-ui-icons design_app"></i>
+
+
+          <li {%if request.path == '/accounts/login/' %} class="active"{%endif%}>
+            <a href="/accounts/login/">
+              <i class="fas fa-thumbs-up fa-5x"></i>
               <p>Iniciar Sesión</p>
             </a>
           </li>
-          <li>
-            <a href="./icons.html">
+           <li {%if request.path == '/registro/' %} class="active"{%endif%}>
+            <a href="/registro/">
               <i class="now-ui-icons education_atom"></i>
               <p>Registrarse</p>
             </a>
           </li>
-          <li>
-              <a href="./icons.html">
+          <li {%if request.path == '/convocatoria/' %} class="active" {%endif%}>
+              <a href="/convocatoria/">
                 <i class="now-ui-icons education_atom"></i>
                 <p>Convocatoria</p>
               </a>
             </li>
           {%else%}
-          <li>
-           
-            <a href="./map.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="./user.html">
+           <li>
+            <a href="/perfil/">
               <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
+              <p>Perfil de usuario</p>
             </a>
           </li>
           <li>
-            <a href="./tables.html">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
+            <a href="/registro/">
+              <i class="now-ui-icons location_map-big"></i>
+              <p>Registro de personal</p>
             </a>
           </li>
           <li>
-            <a href="./typography.html">
+            <a href="/entrega/">
               <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
+              <p>Entrega de beneficio</p>
+            </a>
+          </li>
+          <li>
+            <a href="/configuracion/">
+              <i class="now-ui-icons text_caps-small"></i>
+              <p>configuracion</p>
             </a>
           </li>
           {%endif%}
