@@ -12,6 +12,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('registro/', views.registro, name='registro'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('change-password/', auth_views.PasswordChangeView.as_view()),
  
