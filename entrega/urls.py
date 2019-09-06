@@ -12,7 +12,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('convocatoria/', views.convocatoria, name='convocatoria'),
     path('registro/', views.registro, name='registro'),
+    path('entrega/', views.entrega, name='entrega'),
+    path('perfil/', views.perfil, name='perfil'),
+    path('configuracion/', views.configuracion, name='configuracion'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('change-password/', auth_views.PasswordChangeView.as_view()),
  
