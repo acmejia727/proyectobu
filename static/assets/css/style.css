@@ -1,0 +1,14 @@
+:root {
+--blue: #244a87!important;
+}
+.sidebar .logo, .off-canvas-sidebar .logo {
+
+    background-color: #244a87
+}
+.sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {
+    background-color: #244a87
+}
+.sidebar .nav li.active > a, .off-canvas-sidebar .nav li.active > a {
+    background-color: #D17900;
+
+}
