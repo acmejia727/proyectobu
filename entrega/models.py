@@ -50,7 +50,6 @@ class Asistencia(models.Model):
     modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, verbose_name="Modulo")
     fecha = models.DateField(auto_now=True)
 
-
 class Acceso_Modulo(models.Model):
     personal = models.ForeignKey(Personal, on_delete=models.CASCADE, verbose_name="Personal")
     modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, verbose_name="Modulo")
