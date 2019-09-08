@@ -11,11 +11,6 @@
                 <div class="card-header">
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-
-
-
- 
-  
 </form>
 
 <div role="main" class="main">
@@ -24,13 +19,12 @@
       <div class="container">
         <div class="row">
           <div class="col">
-            
+
           </div>
         </div>
         <div class="row">
           <div class="col p-static">
             <span class=""></span><h1 data-title-border="">Inicio de sesión</h1>
-
           </div>
         </div>
       </div>
@@ -46,7 +40,7 @@
               <div class="col-md-12">
                 <div class="featured-box featured-box-primary text-left mt-5" style="height: 368.188px;">
                   <div class="box-content">
-                   
+
                       <form method="post">
                           {% csrf_token %}
                       <div class="form-row">
@@ -64,21 +58,21 @@
                       </div>
                       <div class="form-row">
                         <div class="form-group col-lg-6">
-                         
+
                         </div>
                         {% if form.non_field_errors %}
                         {% for error in form.non_field_errors %}
                         <div class="alert alert-success">
                             <a class="close" href="#" data-dismiss="alert">×</a>
-    
+
                             <p class="text-danger">{{ error }}</p>
-    
+
                         </div>
                         {% endfor %}
                 {% endif %}
                         <div class="form-group col-lg-6">
                             <button type="submit" class="btn btn-primary btn-modern float-right">Iniciar sesión</button>
-                          
+
                         </div>
                         <br>
                         <p>Aun no tengo cuenta, deseo <a href="/registration/">Registrarme</a></p>
@@ -87,7 +81,7 @@
                   </div>
                 </div>
               </div>
-              
+
             </div>
 
           </div>
