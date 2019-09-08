@@ -3,7 +3,174 @@
 {% block title %}entrega{% endblock title %}
 
 {% block content %}
+<div class="content">
+    <div class="container">
+        <div class="row">
+                       
+{% if not estudiante_result %}
+<div class="card card-user">
+    
+    <div class="col-12">
+        <h4>Busqueda:</h4>
+    <form method="get"  id="myForm">{% csrf_token %}
+    <input type="text" id="search" placeholder="Buscar Nombre código" class="form-control" required autofocus name="busqueda" value="{{request.GET.busqueda}}">
+    <input type="submit" class="btn btn-primary">
+    </form>
+</div>
+{% if estudiante %}
+<div class="col-12">
+        <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                    <th>  Código</th>
+                    <th>Nombre</th>
+                </tr>
+    {%for x in estudiante %}
+    <tr>
+    <td><a href="{{request.patch}}?id={{x.pk}}">{{x.user.username}}</a></td>
+    <td>{{x.user.first_name|upper}} {{x.user.last_name|upper}}</td>
+</tr>
+    {%endfor%}
+                </table>
+        </div>
+</div>
+</div>
+
+{%else%}
+
+    <p>No hay resultado</p>
+
+{%endif%}
+
+</div>
+</div>
+{%else%}
 
 
+                <div class="content">
+                        <div class="row">
+
+                                <div class="col-md-4">
+                                        <div class="card card-user">
+                                          <div class="image">
+                                            <img src="{% static '/assets/img/bg5.jpg' %}" alt="...">
+                                          </div>
+                                          <div class="card-body">
+                                            <div class="author">
+                                              <a href="#">
+                                                <img class="avatar border-gray" src="{{estudiante_result.foto.url}}" alt="...">
+                                                
+                                              </a>
+                                            
+                                            </div>
+                                            
+                                          </div>
+                                          <hr>
+                                          <div class="button-container">
+                                                {%if beneficio%}
+                                            <input type="submit" class="btn btn-primary" value="Entregar">
+                                            {%else%}
+                                            <p>Sin Beneficios</p>
+                                            {%endif%}
+                                        </div>
+                                        </div>
+                                      </div>
+
+                          <div class="col-md-8">
+                            <div class="card">
+                              <div class="card-header">
+                                <h5 class="title">Información</h5>
+                                
+                              </div>
+                              <div class="card-body">
+                                <form>
+                                  <div class="row">
+                                    <div class="col-md-5 pr-1">
+                                      <div class="form-group">
+                                        <label>Código:</label>
+                                        <input type="text" class="form-control"  placeholder="Company" value="{{estudiante_result.user.username}}" readonly>
+                                      </div>
+                                    </div>
+            
+                                    <div class="col-md-7 pl-1">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="email" class="form-control" placeholder="Email" value="{{estudiante_result.user.email|upper}} ">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                      <div class="form-group">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control" placeholder="Company" value="{{estudiante_result.user.first_name|upper}} ">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+                                      <div class="form-group">
+                                        <label>Apellido</label>
+                                        <input type="text" class="form-control" placeholder="Last Name" value="{{estudiante_result.user.last_name|upper}} ">
+                                      </div>
+                                    </div>
+                                  </div>
+                               
+                                  <div class="row">
+                                    <div class="col-md-8 pr-1">
+                                      <div class="form-group">
+                                        <label>Carrera</label>
+                                        <input type="text" class="form-control" placeholder="City" value="{{estudiante_result.carrera|upper}} ">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4 px-1">
+                                      <div class="form-group">
+                                        <label>Fecha Nacimiento</label>
+                                        <input type="text" class="form-control" placeholder="Country" value="{{estudiante_result.fecha_nacimiento}} ">
+                                      </div>
+                                    </div>
+                                 
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <div class="form-group">
+                                          
+                                        <label>Beneficios:</label>
+                                        <ul>
+                                                {%for x in beneficio%}
+                                            <li>{{x.tipo_beneficio.nombre}}</li>
+                                            {%endfor%}
+                                        </ul>
+                                        {%if not beneficio%}
+                                        <div class="alert alert-warning">
+                                                <button type="button" aria-hidden="true" class="close">
+                                                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                </button>
+                                                <span>Este estudiante no posee ningun tipo de beneficio</span>
+                                            </div>
+                                        
+                                        {%endif%}
+                                        <a href="/entrega/">
+                                        <button type="submit" class="btn btn-danger" style="float:right" >Cancelar</button>
+                                    </a>
+                                    </div>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+
+{%endif%}
+
+<script>
+        $("#search").keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("form").submit();
+            }
+        });
+</script>
 
 {% endblock %}

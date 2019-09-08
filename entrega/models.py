@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+TIPO_BENEFICIO = [
+    ('REFRIGERIO', 'REFRIGERIO'),
+    ('ALMUERZO', 'ALMUERZO'),
+]
 
 class Personal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
@@ -14,12 +18,12 @@ class Estudiante(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
     carrera = models.CharField(max_length=50, null=False)
     fecha_nacimiento = models.DateField()
-    foto = models.CharField(max_length=300, null=True)
+    foto = models.ImageField(upload_to="perfil/", null=True)
     fecha_creacion = models.DateField(auto_now=True)
 
 
 class Tipo_beneficio(models.Model):
-    nombre = models.CharField(max_length=50, null=False)
+    nombre = models.CharField(max_length=50, null=False,choices=TIPO_BENEFICIO)
     descripcion = models.CharField(max_length=200, null=True)
 
 
@@ -32,6 +36,7 @@ class Convocatoria(models.Model):
 class Beneficiario(models.Model):
     tipo_beneficio = models.ForeignKey(Tipo_beneficio, on_delete=models.CASCADE, verbose_name="Tipo beneficio")
     convocatoria = models.ForeignKey(Convocatoria, on_delete=models.CASCADE, verbose_name="Convocatoria")
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, verbose_name="Convocatoria", null=True,blank=False)
     fecha_creacion = models.DateField(auto_now=True)
 
 
