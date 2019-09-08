@@ -2,10 +2,10 @@ from django.shortcuts import render
 from .models import *
 # Create your views here.
 def home(request):
-<<<<<<< HEAD
-=======
+#<<<<<<< HEAD
+#=======
     
->>>>>>> c4972948245d3e0bebd994fddb92ac8b910f1519
+#>>>>>>> c4972948245d3e0bebd994fddb92ac8b910f1519
     context={}
     return render(request, 'index.html', context)
 
