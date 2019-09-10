@@ -61,7 +61,7 @@ class Beneficiario(models.Model):
          verbose_name_plural = "Beneficiario"
 
     def __str__(self):
-        return "Beneficiario con tipo de beneficio: ", self.tipo_beneficio, " en la convocatoria: ", self.convocatoria
+        return "Beneficiario con tipo de beneficio: "+ str(self.tipo_beneficio) +" en la convocatoria: "+ str(self.convocatoria)
 
 class Horario(models.Model):
     fecha_inicio = models.DateField()

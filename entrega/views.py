@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Value as V
+from django.db.models.functions import Concat  
 # Create your views here.
 def home(request):
     
@@ -29,8 +31,9 @@ def entrega(request):
     except:
         busqueda = False
    # entregado = Entrega.objects.all()
-    estudiante = Estudiante.objects.filter( Q(user__username__icontains=busqueda) |
-                                       Q(user__first_name__icontains=busqueda)|Q(user__last_name__icontains=busqueda)
+    queryset = Estudiante.objects.annotate(fullname=Concat('user__first_name', V(' '), 'user__last_name'))
+    estudiante = queryset.filter( Q(user__username__icontains=busqueda) |                                      
+                                       Q(fullname__icontains=busqueda)
 
     )
     #aca valido si la busqueda arroja un solo resultado que redirecciones autamaticamente    
