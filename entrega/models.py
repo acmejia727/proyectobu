@@ -99,7 +99,7 @@ class Beneficiario(models.Model):
 
 #>>>>>>> 665afe2e9c565bede0ab20287c636d94ec438a24
     def __str__(self):
-        return "Beneficiario con tipo de beneficio: ", self.tipo_beneficio, " en la convocatoria: ", self.convocatoria
+        return "Beneficiario con tipo de beneficio: "+ str(self.tipo_beneficio) +" en la convocatoria: "+ str(self.convocatoria)
 
 class Horario(models.Model):
     fecha_inicio = models.DateField()
