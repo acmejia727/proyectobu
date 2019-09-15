@@ -30,15 +30,25 @@ class Estudiante(models.Model):
     def __str__(self):
         return str(self.user)
 
+class Cantidad_semanal(models.Model):
+    lunes = models.IntegerField()
+    martes = models.IntegerField()
+    miercoles = models.IntegerField()
+    jueves = models.IntegerField()
+    viernes = models.IntegerField()
+
+
 class Tipo_beneficio(models.Model):
     nombre = models.CharField(max_length=50, null=False,choices=TIPO_BENEFICIO)
     descripcion = models.CharField(max_length=200, null=True)
+    cantidad = models.ForeignKey(Cantidad_semanal, on_delete=models.CASCADE, verbose_name="Cantidad",null=True)
 
     class Meta:
          verbose_name_plural = "Tipo de beneficio"
 
     def __str__(self):
         return str(self.nombre)
+
 
 class Convocatoria(models.Model):
     nombre = models.CharField(max_length=50, null=False)
@@ -71,7 +81,7 @@ class Horario(models.Model):
          verbose_name_plural = "Horario"
 
     def __str__(self):
-        return "Hora inicial: "+ str(self.fecha_inicio)+ " hora final: "+ str(self.fecha_final)
+        return "Hora inicial: "+ str(self.fecha_ini)+ " hora final: "+str(self.fecha_fin)
 
 class Modulo(models.Model):
     horario = models.ForeignKey(Horario, on_delete=models.CASCADE, verbose_name="Horario")

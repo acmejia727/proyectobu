@@ -10,7 +10,8 @@ from django.db.models import Value as V
 from django.db.models.functions import Concat
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-from datetime import date
+from datetime import *
+import itertools
 # Create your views here.
 
 def login(request):
@@ -59,11 +60,16 @@ def login(request):
     return render(request, 'registration/login.html', context)
 
 def home(request):
-#<<<<<<< HEAD
-#=======
-    
-#>>>>>>> c4972948245d3e0bebd994fddb92ac8b910f1519
-    context={}
+    fecha = date.today()
+    start_week = fecha - timedelta(fecha.weekday())
+    end_week = start_week + timedelta(7)
+    asistencia = Asistencia.objects.filter(fecha__range=[start_week, end_week])
+
+    qs = asistencia.values('fecha').values('fecha')
+    grouped = itertools.groupby(qs, lambda d: d.get('fecha').strftime('%Y-%m-%d'))
+    [(day, len(list(this_day))) for day, this_day in grouped]
+
+    context={'asistencia':asistencia}
     return render(request, 'index.html', context)
 
 def convocatoria(request):

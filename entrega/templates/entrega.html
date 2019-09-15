@@ -94,7 +94,7 @@
                                           </a>
                                             <br>
                                             {%else%}
-                                              El beneficio {{x.tipo_beneficio.nombre}} que posee el estudiante no puede ser entregado por este módulo
+                                              El beneficio {{x.tipo_beneficio.nombre}} que posee el estudiante no puede ser entregado por este módulo <br>
                                             {%endif%}
                                             {%endfor%}
                                             {%else%}
@@ -106,6 +106,7 @@
                                             <span id="timer">
                                                 <script type="text/javascript">countDown();</script>
                                                 </span>
+                                                <a href="/entrega/">Volver</a>
                                             {%endif%}
                                         </div>
                                         </div>
