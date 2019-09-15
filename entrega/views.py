@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -22,8 +23,28 @@ def convocatoria(request):
     return render(request, 'convocatoria.html', context)
 
 def registro(request):
-   # entregado = Entrega.objects.all()
-    context={}
+    if request.method == 'POST':
+        formuser = UsuarioForm(request.POST, request.FILES)
+        formpersonal = ProfileForm(request.POST, request.FILES)
+
+        if formuser.is_valid():
+            user = formuser.save(commit=False)
+            user.username = user.email
+            user_password = user.password
+            user.set_password(user_password)
+            user.save()
+            return HttpResponseRedirect('/registro/')
+        if formpersonal.is_valid():
+            Personal = formpersonal.save(comit=False)
+            Personal.user = user
+            Personal.save()
+            return HttpResponseRedirect('/registro/')
+    else:
+        formuser = UsuarioForm()
+        formpersonal = ProfileForm()
+
+    context={'formuser': formuser, 'formpersonal': formpersonal}
+
     return render(request, 'registro.html', context)
 
 @login_required(login_url='/')
@@ -37,7 +58,6 @@ def entrega(request):
     queryset = Estudiante.objects.annotate(fullname=Concat('user__first_name', V(' '), 'user__last_name'))
     estudiante = queryset.filter( Q(user__username__icontains=busqueda) |                                      
                                        Q(fullname__icontains=busqueda)
-
     )
     #aca valido si la busqueda arroja un solo resultado que redirecciones autamaticamente    
     if len(estudiante)==1:
@@ -61,8 +81,14 @@ def entrega(request):
     return render(request, 'entrega.html', context)
 
 def perfil(request):
-   # entregado = Entrega.objects.all()
-    context={}
+    print(request.user.id)
+    try:
+        perfil = Personal.objects.get(user__pk=request.user.id)
+    except:
+        perfil = False
+
+    # entregado = Entrega.objects.all()
+    context={'perfil':perfil}
     return render(request, 'perfil.html', context)
 
 def configuracion(request):
