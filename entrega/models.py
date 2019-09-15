@@ -85,6 +85,7 @@ class Modulo(models.Model):
 
 class Asistencia(models.Model):
     beneficiario = models.ForeignKey(Beneficiario, on_delete=models.CASCADE, verbose_name="Beneficiario")
+    personal = models.ForeignKey(Personal, on_delete=models.CASCADE, verbose_name="Personal")
     modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, verbose_name="Modulo")
     fecha = models.DateField(auto_now=True)
 
