@@ -25,7 +25,7 @@ SECRET_KEY = '$fmsccjy-+^)+0%1t$&y6721rfah4t*f1&(cx5&=1vjxlh$^)5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'proyectobu.urls'
@@ -86,6 +87,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -137,6 +139,7 @@ if not DEBUG:
     TEMPLATE_DIRS = (
         os.path.join(os.path.dirname(BASE_DIR), "static", "templates"),
     )
+
 
 # Add these new lines
 #if not DEBUG: (esto lo haremos en el proximo paso)

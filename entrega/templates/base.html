@@ -30,10 +30,14 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
+        {%if user.username%}
+      <h5 class="simple-text logo-normal badge badge-info" style="text-align: center">Módulo: {{request.session.modulo}} {%if user.is_superuser%} Admin {%endif%} </h5>
+         {%endif%}
         <a href="/" class="simple-text logo">
          <img src="{% static 'escudo.png' %}" alt="">
         </a>
-        <a href="/" class="simple-text logo-normal">BU Software v 0.1</a>
+        <a href="/" class="simple-text logo-normal">BU Software v 0.1  </a>
+
       </div>
 
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -46,12 +50,14 @@
               <p>Iniciar Sesión</p>
             </a>
           </li>
+          {%if user.is_superuser %}
            <li {%if request.path == '/registro/' %} class="active"{%endif%}>
             <a href="/registro/">
               <i class="fas fa-user-edit"></i>
               <p>Registrarse</p>
             </a>
           </li>
+          {%endif%}
           <li {%if request.path == '/convocatoria/' %} class="active" {%endif%}>
               <a href="/convocatoria/">
                 <i class="far fa-address-book"></i>
@@ -65,12 +71,14 @@
               <p>Perfil de usuario</p>
             </a>
           </li>
+          {%if user.is_superuser %}
            <li {%if request.path == '/registro/' %} class="active" {%endif%}>
             <a href="/registro/">
               <i class="fas fa-user-plus"></i>
               <p>Registro de personal</p>
             </a>
           </li>
+          {%endif%}
            <li {%if request.path == '/entrega/' %} class="active" {%endif%}>
             <a href="/entrega/">
               <i class="fas fa-cart-arrow-down"></i>
@@ -108,6 +116,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
+            <a class="navbar-brand" href="#pablo"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -117,10 +126,10 @@
 
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <!--Comienzo!-->
-            <form>
+            <form id="myForm" action="/entrega/">{%csrf_token%}
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Buscar">
-                <div class="input-group-append">
+                <input type="text" value="" name="busqueda" class="form-control" placeholder="Buscar">
+                <div class="input-group-append" onclick="myForm.submit();">
                   <div class="input-group-text">
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
                   </div>
@@ -138,9 +147,11 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Iniciar seccion</a>
+                  <a class="dropdown-item" href="#">Iniciar sesión</a>
+                  {%if user.is_superuser %}
                   <a class="dropdown-item" href="#">Registrarse</a>
                   <a class="dropdown-item" href="#">Convocatoria</a>
+                  {%endif%}
                 </div>
               </li>
             </ul>
@@ -150,6 +161,8 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-user"></i>
                   <p>
+                       {{user.first_name|upper}} {{user.last_name|upper}}
+
                     <span class="d-lg-none d-md-block">Opciones</span>
                   </p>
                 </a>
@@ -168,6 +181,7 @@
       </nav>
       <!-- End Navbar -->
        <div class="panel-header panel-header-sm">
+
       </div>
 
 

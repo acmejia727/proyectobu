@@ -9,7 +9,7 @@ TIPO_BENEFICIO = [
 class Personal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
     foto = models.ImageField(upload_to="perfil/", null=True)
-    fecha_creacion = models.DateField(auto_now=True)
+    fecha_creacion = models.DateTimeField(auto_now=True)
 
     class Meta:
          verbose_name_plural = "Personal"
@@ -22,7 +22,7 @@ class Estudiante(models.Model):
     carrera = models.CharField(max_length=50, null=False)
     fecha_nacimiento = models.DateField()
     foto = models.ImageField(upload_to="perfil/", null=True)
-    fecha_creacion = models.DateField(auto_now=True)
+    fecha_creacion = models.DateTimeField(auto_now=True)
 
     class Meta:
          verbose_name_plural = "Estudiante"
@@ -43,7 +43,7 @@ class Tipo_beneficio(models.Model):
 class Convocatoria(models.Model):
     nombre = models.CharField(max_length=50, null=False)
     descripcion = models.CharField(max_length=200, null=True)
-    fecha_creacion = models.DateField(auto_now=True)
+    fecha_creacion = models.DateTimeField(auto_now=True)
 
     class Meta:
          verbose_name_plural = "Convocatoria"
@@ -55,7 +55,7 @@ class Beneficiario(models.Model):
     tipo_beneficio = models.ForeignKey(Tipo_beneficio, on_delete=models.CASCADE, verbose_name="Tipo beneficio")
     convocatoria = models.ForeignKey(Convocatoria, on_delete=models.CASCADE, verbose_name="Convocatoria")
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, verbose_name="Convocatoria", null=True,blank=False)
-    fecha_creacion = models.DateField(auto_now=True)
+    fecha_creacion = models.DateTimeField(auto_now=True)
 
     class Meta:
          verbose_name_plural = "Beneficiario"
@@ -64,14 +64,14 @@ class Beneficiario(models.Model):
         return "Beneficiario con tipo de beneficio: "+ str(self.tipo_beneficio) +" en la convocatoria: "+ str(self.convocatoria)
 
 class Horario(models.Model):
-    fecha_inicio = models.DateField()
-    fecha_final = models.DateField()
+    fecha_ini = models.TimeField(null=True)
+    fecha_fin = models.TimeField(null=True)
 
     class Meta:
          verbose_name_plural = "Horario"
 
     def __str__(self):
-        return "Hora inicial: ", self.fecha_inicio, " hora final: ", self.fecha_final
+        return "Hora inicial: "+ str(self.fecha_inicio)+ " hora final: "+ str(self.fecha_final)
 
 class Modulo(models.Model):
     horario = models.ForeignKey(Horario, on_delete=models.CASCADE, verbose_name="Horario")
@@ -81,18 +81,8 @@ class Modulo(models.Model):
          verbose_name_plural = "Modulo"
 
     def __str__(self):
-        return self.horario
+        return str(self.horario)
 
-class Asistencia(models.Model):
-    beneficiario = models.ForeignKey(Beneficiario, on_delete=models.CASCADE, verbose_name="Beneficiario")
-    modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE, verbose_name="Modulo")
-    fecha = models.DateField(auto_now=True)
-
-    class Meta:
-         verbose_name_plural = "Asistencia"
-
-    def __str__(self):
-        return "Asistencia del beneficiario: ", self.beneficiario, " en el modulo: ", self.modulo
 
 class Acceso_Modulo(models.Model):
     personal = models.ForeignKey(Personal, on_delete=models.CASCADE, verbose_name="Personal")
@@ -102,4 +92,15 @@ class Acceso_Modulo(models.Model):
          verbose_name_plural = "Acceso del modulo"
 
     def __str__(self):
-        return "Acceso del modulo desde el personal: ", self.personal, " en el modulo: ", self.modulo
+        return "Acceso del modulo desde el personal: "+ str(self.personal)+" en el modulo: "+str(self.modulo)
+
+class Asistencia(models.Model):
+    beneficiario = models.ForeignKey(Beneficiario, on_delete=models.CASCADE, verbose_name="Beneficiario")
+    acceso_modulo = models.ForeignKey(Acceso_Modulo, on_delete=models.CASCADE, verbose_name="Acceso Modulo",null=True)
+    fecha = models.DateTimeField(auto_now=True)
+
+    class Meta:
+         verbose_name_plural = "Asistencia"
+
+    def __str__(self):
+        return "Asistencia del beneficiario: "+str(self.beneficiario)+" en el modulo: "+str(self.acceso_modulo)

@@ -3,6 +3,23 @@
 {% block title %}entrega{% endblock title %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var count = 20;
+  var redirect = "/entrega/";
+   
+  function countDown(){
+      var timer = document.getElementById("timer");
+      if(count > 0){
+          count--;
+          timer.innerHTML = "Esta página se redireccionara en "+count+" segundos.";
+          setTimeout("countDown()", 1000);
+      }else{
+          window.location.href = redirect;
+      }
+  }
+  </script>
+
 <div class="content">
     <div class="container">
         <div class="row">
@@ -66,11 +83,29 @@
                                             
                                           </div>
                                           <hr>
+                                          
                                           <div class="button-container">
+                                            {%if not asistencia %}
                                                 {%if beneficio%}
-                                            <input type="submit" class="btn btn-primary" value="Entregar">
+                                                {% for x in beneficio %}
+                                                {%if acceso.modulo.tipo_beneficio_id == x.tipo_beneficio_id %}
+                                                <a href="/asistencia/{{x.pk}}/" class="confirmation">
+                                            <input type="submit" class="btn btn-success" value="ENTREGAR {{x.tipo_beneficio}}">
+                                          </a>
+                                            <br>
+                                            {%else%}
+                                              El beneficio {{x.tipo_beneficio.nombre}} que posee el estudiante no puede ser entregado por este módulo
+                                            {%endif%}
+                                            {%endfor%}
                                             {%else%}
                                             <p>Sin Beneficios</p>
+                                            {%endif%}
+                                            {%else%}
+                                            <span class="badge badge-success">Beneficio Entregado</span>
+                                             <br>
+                                            <span id="timer">
+                                                <script type="text/javascript">countDown();</script>
+                                                </span>
                                             {%endif%}
                                         </div>
                                         </div>
@@ -173,4 +208,12 @@
         });
 </script>
 
+<script type="text/javascript">
+  $('.confirmation').on('click', function () {
+      return confirm('Está usted seguro de que desea entregar este beneficio?');
+  });
+</script>
+
+
+   
 {% endblock %}
