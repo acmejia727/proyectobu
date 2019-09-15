@@ -101,11 +101,7 @@ def refrigerio(request):
     return render(request, 'refrigerio.html', context)
 
 def almuerzo(request):
-    beneficiario = Beneficiario.objects.all()
-    ahora = time.strftime("%H:%M:%S")
 
-    context={'beneficiario':beneficiario,
-              'ahora': ahora
-              }
+    context={}
 
     return render(request, 'almuerzo.html', context)
