@@ -1,6 +1,8 @@
 {% extends 'base.html'%}
 {% block content%}
 
+{%if user.is_superuser%}
+
     <!-- Navbar -->
     
     <!-- End Navbar -->
@@ -11,15 +13,16 @@
 
     </div>
     <div class="content">
-
-        {{asistencia}}
+   
+        <hr>
+      
 
       <div class="row">
         
         <div class="col-lg-6 col-md-6">
           <div class="card card-chart">
             <div class="card-header">
-              <h5 class="card-category">Beneficio refrigerio</h5>
+              <h5 class="card-category">Beneficio Almuerzos</h5>
               
               <h4 class="card-title"><i class="now-ui-icons arrows-1_refresh-69"></i> Últimos 7 días</h4>
               
@@ -52,7 +55,7 @@
         <div class="col-lg-6 col-md-6">
           <div class="card card-chart">
             <div class="card-header">
-              <h5 class="card-category">Beneficio almuerzo</h5>
+              <h5 class="card-category">Beneficio Refrigerio</h5>
               <h4 class="card-title"><i class="now-ui-icons arrows-1_refresh-69"></i> Últimos 7 días</h4>
             </div>
             <div class="dropdown">
@@ -84,28 +87,34 @@
     <div id="canvas-container" style="width:40%;">
       <canvas id="grafico"  width="100" height="100"></canvas>
     </div>
-    
- 
+  
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js">
     
     </script>
-    
+    {{cantidad}}
     <script>
       var datos = {
-            labels : ["{{dia7}}", "{{dia6}}", "{{dia5}}", "{{dia4}}", "{{dia3}}", "{{dia2}}", "{{dia1}}"],
+            labels : [{%for x in asistencia_refrigerio %}'{{x.day|date:"D"}}',{%endfor%}],
             datasets : [
             {
                 /*hidden:true,*/
-                label : "Por entregar",
+                label : "Entregados",             
                 backgroundColor : "rgba(0,152,192,0.5)",
                 borderColor: ['rgba(0,152,192,1)'],
-                data: [15, 18, 20, 20, 20]
+                data: [{%for x in asistencia_refrigerio %}{{x.count}},{%endfor%}]
             },
             {
-                label : "Entregados",
+                label : "Por entregar",
                 backgroundColor : "rgba(0,187,156,0.5)",
                 borderColor: ['rgba(0,187,156,1)'],
-                data: [14, 15, 20, 18, 20]
+                data: [{%for x in asistencia_refrigerio %}{%for y in cantidad_refrigerio %}
+                {%if 'Lun' == x.day|date:"D" %}{{y.lunes}}{%endif%}
+                {%if 'Mar' == x.day|date:"D" %}{{y.martes}}{%endif%}
+                {%if 'Mie' == x.day|date:"D" %}{{y.jueves}}{%endif%}
+                {%if 'Jue' == x.day|date:"D" %}{{y.jueves}}{%endif%}
+                {%if 'Vie' == x.day|date:"D" %}{{y.viernes}}{%endif%}
+                ,{%endfor%}
+                {%endfor%}]
             }
             ]
             
@@ -135,20 +144,27 @@
 
 
         var datos = {
-            labels : ["{{dia7}}", "{{dia6}}", "{{dia5}}", "{{dia4}}", "{{dia3}}", "{{dia2}}", "{{dia1}}"],
+            labels : [{%for x in asistencia_almuerzo %}'{{x.day|date:"D"}}',{%endfor%}],
             datasets : [
             {
                 /*hidden:true,*/
-                label : "Por entregar",
+                label : "Entregados",             
                 backgroundColor : "rgba(0,152,192,0.5)",
                 borderColor: ['rgba(0,152,192,1)'],
-                data: [10, 10, 15, 8, 13]
+                data: [{%for x in asistencia_almuerzo %}{{x.count}},{%endfor%}]
             },
             {
-                label : "Entregados",
+                label : "Por entregar",
                 backgroundColor : "rgba(0,187,156,0.5)",
                 borderColor: ['rgba(0,187,156,1)'],
-                data: [10, 9, 14, 8, 12]
+                data: [{%for x in asistencia_almuerzo %}{%for y in cantidad_almuerzo %}
+                {%if 'Lun' == x.day|date:"D" %}{{y.lunes}}{%endif%}
+                {%if 'Mar' == x.day|date:"D" %}{{y.martes}}{%endif%}
+                {%if 'Mie' == x.day|date:"D" %}{{y.jueves}}{%endif%}
+                {%if 'Jue' == x.day|date:"D" %}{{y.jueves}}{%endif%}
+                {%if 'Vie' == x.day|date:"D" %}{{y.viernes}}{%endif%}
+                ,{%endfor%}
+                {%endfor%}]
             }
             ]
             
@@ -359,7 +375,7 @@ demo = {
     var myChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["{{mes1}}", "{{mes2}}", "{{mes3}}", "{{mes4}}", "{{mes5}}"],
+        labels: [{%for x in asistencia_total %}'{{x.month|date:"M"}}',{%endfor%}],
         datasets: [{
           label: "Beneficio disponible",
           borderColor: chartColor,
@@ -374,24 +390,9 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [300, 300, 290, 280, 280]
+          data: [{%for x in asistencia_total %}{{x.count}},{%endfor%}]
         },
-        {
-          label: "Beneficio entregado",
-          borderColor: chartColor,
-          pointBorderColor: chartColor,
-          pointBackgroundColor: "#805596",
-          pointHoverBackgroundColor: "#805596",
-          pointHoverBorderColor: chartColor,
-          pointBorderWidth: 1,
-          pointHoverRadius: 7,
-          pointHoverBorderWidth: 2,
-          pointRadius: 5,
-          fill: true,
-          backgroundColor: gradientFill,
-          borderWidth: 2,
-          data: [300, 280, 280, 270, 270]
-        }]
+        ]
       },
       options: {
         layout: {
@@ -728,5 +729,18 @@ demo = {
 
        
     </script>
-{{entregado}}
+
+    {%else%}
+
+    <div class="content">
+            <div class="card">
+                    <div class="card-body">
+                        <h1>Dirección de Bienestar Universitario</h1>
+    <p>La Dirección de Bienestar Universitario presta los servicios a los miembros de Comunidad Universitaria en áreas de: Salud con atención médica, odontológica, programas de promoción y prevención; Deporte con el fomento y desarrollo recreativo, formativo y representativo; Cultura fomento y desarrollo cultural y artístico en lo recreativo, formativo y representativo, y Desarrollo Humano, con atención en Psicología, programas de beneficio y equidad.</p>
+<p>BU Software es un programa desarrollo por jovenes estudiante para facilitar la entrega del Programa de Almuerzos y Refrigerios Gratuitos 
+        </p>
+</div>
+</div>
+</div>
+    {%endif%}
 {%endblock%}

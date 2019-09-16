@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from datetime import *
 import itertools
+from django.db.models.functions import TruncDay,TruncMonth
 # Create your views here.
 
 def login(request):
@@ -60,16 +61,31 @@ def login(request):
     return render(request, 'registration/login.html', context)
 
 def home(request):
+    try:
+        cantidad_refrigerio = Cantidad_semanal.objects.filter(tipo_beneficio__nombre='REFRIGERIO')
+    except:
+        cantidad = False
     fecha = date.today()
     start_week = fecha - timedelta(fecha.weekday())
     end_week = start_week + timedelta(7)
-    asistencia = Asistencia.objects.filter(fecha__range=[start_week, end_week])
+    asistencia_refrigerio= Asistencia.objects.filter(fecha__range=[start_week, end_week],beneficiario__tipo_beneficio__nombre='REFRIGERIO').annotate(day=TruncDay('fecha')).values("day").order_by().annotate(count=Count("id"))
 
-    qs = asistencia.values('fecha').values('fecha')
-    grouped = itertools.groupby(qs, lambda d: d.get('fecha').strftime('%Y-%m-%d'))
-    [(day, len(list(this_day))) for day, this_day in grouped]
+    try:
+        cantidad_almuerzo = Cantidad_semanal.objects.filter(tipo_beneficio__nombre='ALMUERZO')
+    except:
+        cantidad = False
+    fecha = date.today()
+    start_week = fecha - timedelta(fecha.weekday())
+    end_week = start_week + timedelta(7)
+    asistencia_almuerzo= Asistencia.objects.filter(fecha__range=[start_week, end_week],beneficiario__tipo_beneficio__nombre='ALMUERZO').annotate(day=TruncDay('fecha')).values("day").order_by().annotate(count=Count("id"))
 
-    context={'asistencia':asistencia}
+
+    asistencia_total= Asistencia.objects.all().annotate(month=TruncMonth('fecha')).values("month").order_by().annotate(count=Count("id"))
+
+
+
+
+    context={'asistencia_refrigerio':asistencia_refrigerio,'cantidad_refrigerio':cantidad_refrigerio,'cantidad_almuerzo':cantidad_almuerzo,'asistencia_almuerzo':asistencia_almuerzo,'asistencia_total':asistencia_total}
     return render(request, 'index.html', context)
 
 def convocatoria(request):
@@ -82,18 +98,20 @@ def registro(request):
         formuser = UsuarioForm(request.POST, request.FILES)
         formpersonal = ProfileForm(request.POST, request.FILES)
 
-        if formuser.is_valid():
+        if formuser.is_valid() and  formpersonal.is_valid():
             user = formuser.save(commit=False)
             user.username = user.email
             user_password = user.password
             user.set_password(user_password)
-            user.save()
-            return HttpResponseRedirect('/registro/')
-        if formpersonal.is_valid():
-            Personal = formpersonal.save(comit=False)
-            Personal.user = user
-            Personal.save()
-            return HttpResponseRedirect('/registro/')
+                   
+            try:
+                user.save() 
+                personal = formpersonal.save(commit=False)
+                personal.user = user
+                personal.save()
+                return HttpResponseRedirect('/')
+            except:
+                print('Hubo un error')
     else:
         formuser = UsuarioForm()
         formpersonal = ProfileForm()
