@@ -19,6 +19,8 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('configuracion/', views.configuracion, name='configuracion'),
     path('accounts/login/', views.login, name='login'),   
+    path('estudiantes_registrados/', views.estudiantes_registrados, name='estudiantes_registrados'), 
+    path('beneficiario/', views.beneficiario, name='beneficiario'),
     path('accounts/', include('django.contrib.auth.urls')),     
     path('change-password/', auth_views.PasswordChangeView.as_view()),
     # path('refrigerio/', views.refrigerio, name='refrigerio'),

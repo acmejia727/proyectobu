@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'entrega',
+    'inscripcion',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'proyectobu.urls'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -70,6 +72,11 @@ TEMPLATES = [
         },
     },
 ]
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+
+)
 
 WSGI_APPLICATION = 'proyectobu.wsgi.application'
 

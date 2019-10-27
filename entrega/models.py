@@ -6,6 +6,12 @@ TIPO_BENEFICIO = [
     ('ALMUERZO', 'ALMUERZO'),
 ]
 
+SELECCION = [
+    ('SELECCION', 'SELECCION'),
+    ('PRESELECCION', 'PRESELECCION'),
+]
+
+
 class Personal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
     foto = models.ImageField(upload_to="perfil/", null=True)
@@ -17,18 +23,38 @@ class Personal(models.Model):
     def __str__(self):
         return str(self.user)
 
+
+
 class Estudiante(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
     carrera = models.CharField(max_length=50, null=False)
     fecha_nacimiento = models.DateField()
     foto = models.ImageField(upload_to="perfil/", null=True)
     fecha_creacion = models.DateTimeField(auto_now=True)
+    estrato = models.IntegerField(null=True)
+    pension_ud = models.IntegerField(null=True)
+    pension_de = models.IntegerField(null=True)
+    jovenes_accion = models.BooleanField(null=True)
+    deportista = models.BooleanField(null=True)
 
     class Meta:
          verbose_name_plural = "Estudiante"
 
     def __str__(self):
         return str(self.user)
+
+class Registro_estudiante(models.Model):
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, verbose_name="Estudiante",null=True)
+    estado = models.CharField(choices=SELECCION,max_length=100,default='PRESELECCION')
+    lunes = models.BooleanField(default=False)
+    martes = models.BooleanField(default=False)
+    miercoles = models.BooleanField(default=False)
+    jueves = models.BooleanField(default=False)
+    viernes = models.BooleanField(default=False)
+    tipo_beneficio = models.CharField(choices=TIPO_BENEFICIO,max_length=100)
+    fecha_creacion = models.DateTimeField(auto_now=True)
+
+
 
 class Cantidad_semanal(models.Model):
     lunes = models.IntegerField()

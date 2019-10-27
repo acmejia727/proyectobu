@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from datetime import *
 import itertools
-from django.db.models.functions import TruncDay,TruncMonth
+from django.db.models.functions import TruncDay,TruncMonth 
 # Create your views here.
 
 def login(request):
@@ -23,6 +23,23 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         beneficio = request.POST['beneficio']
+        print(beneficio)
+
+        if beneficio == 'estudiante':
+            try:
+                estudiante = Estudiante.objects.get(user__username=username)
+                print('Entre esta vaina')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    auth_login(request, user)
+                    request.session['modulo'] = 'estudiante'
+                    return HttpResponseRedirect('/perfilEstudiante/')
+                else:
+                    error = 'Contraseña Erronea o este usuario'
+
+            except:
+                error = 'Ingrese un Usuario Valido'
+            
         if beneficio == 'admin':
             try:
                 user_admin = User.objects.get(username=username)
@@ -189,3 +206,17 @@ def configuracion(request):
    # entregado = Entrega.objects.all()
     context={}
     return render(request, 'configuracion.html', context)
+
+def estudiantes_registrados(request):
+    registro = Registro_estudiante.objects.filter(estado='PRESELECCION')
+    if request.method == 'POST':
+        print('entre')
+        options = request.POST.getlist('options')
+        print(options)
+    context={'registro':registro}
+    return render(request, 'estudiantes_registrados.html', context)
+
+def beneficiario(request):
+    beneficiario = Beneficiario.objects.all()
+    context={'beneficiario':beneficiario}
+    return render(request, 'beneficiario.html', context)

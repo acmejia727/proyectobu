@@ -21,6 +21,7 @@
   <link href="{% static 'assets/demo/demo.css' %}" rel="stylesheet" />
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/83f37c6c82.js"></script>
+  <script src="{% static 'assets/js/core/jquery.min.js' %}"></script>
 </head>
 
 <body class="">
@@ -40,8 +41,15 @@
 
       </div>
 
+    
+
+
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
+            {% if request.session.modulo == 'estudiante'%}
+
+            {% else %}
+
           {% if not user.username %}
           <li {%if request.path == '/accounts/login/' %} class="active" {%endif%}>
             <a href="/accounts/login/">
@@ -50,6 +58,9 @@
               <p>Iniciar Sesión</p>
             </a>
           </li>
+
+         
+
           {%if user.is_superuser %}
            <li {%if request.path == '/registro/' %} class="active"{%endif%}>
             <a href="/registro/">
@@ -58,12 +69,12 @@
             </a>
           </li>
           {%endif%}
-          <li {%if request.path == '/convocatoria/' %} class="active" {%endif%}>
+          <!-- <li {%if request.path == '/convocatoria/' %} class="active" {%endif%}>
               <a href="/convocatoria/">
                 <i class="far fa-address-book"></i>
                 <p>Convocatoria</p>
               </a>
-            </li>
+            </li> -->
           {%else%}
             <li {%if request.path == '/perfil/' %} class="active" {%endif%}>
             <a href="/perfil/">
@@ -79,16 +90,17 @@
             </a>
           </li>
           {%endif%}
+          
            <li {%if request.path == '/entrega/' %} class="active" {%endif%}>
             <a href="/entrega/">
               <i class="fas fa-cart-arrow-down"></i>
               <p>Entrega de beneficio</p>
             </a>
           </li>
-          <li {%if request.path == '/configuracion/' %} class="active" {%endif%}>
-            <a href="/configuracion/">
+          <li {%if request.path == '/estudiantes_registrados/' %} class="active" {%endif%}>
+            <a href="/estudiantes_registrados/">
               <i class="fas fa-user-cog"></i>
-              <p>configuracion</p>
+              <p>Estudiantes Registrados</p>
             </a>
           </li>
           {%endif%}
@@ -100,6 +112,14 @@
             </a>
           </li>
           {%endif%}
+          {%endif%}
+
+          <li {%if request.path == '/beneficiario/' %} class="active" {%endif%}>
+            <a href="/beneficiario/">
+              <i class="fas fa-user-cog"></i>
+              <p>Beneficiario</p>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -195,7 +215,7 @@
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="{% static 'assets/js/core/jquery.min.js' %}"></script>
+
   <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
   <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
@@ -209,13 +229,7 @@
   <script src="{% static 'assets/js/now-ui-dashboard.min.js' %}" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <!--<script src="{% static 'assets/demo/demo.js' %}"></script>-->
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
 
-    });
-  </script>
 </body>
 
 </html>
