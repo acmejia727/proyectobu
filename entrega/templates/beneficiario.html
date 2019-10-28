@@ -14,11 +14,11 @@
               <div class="card-body">
 
 
-
+           
         <table class="table" style="width:100%">
        <thead>
           <tr>
-             <th></th>
+        
              <th>Código</th>
              <th>Nombre</th>
              <th>carrera</th>
@@ -30,7 +30,7 @@
        <tbody>
            {% for x in beneficiario %}
            <tr>
-               <td><input type="checkbox" name="options" value="{{x.pk}}" id=""></td>
+               
                <td>{{x.estudiante.user.username}}</td>
                <td>{{x.estudiante.user.last_name|upper}} {{x.estudiante.user.first_name|upper}}</td>
                <td>{{x.estudiante.carrera|upper}}</td>

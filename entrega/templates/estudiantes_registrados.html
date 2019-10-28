@@ -17,6 +17,22 @@
               </div>
               <div class="card-body">
 
+
+<button class="btn">
+       Lunes <span class="badge badge-light"> {{lunes}}/{{cantidad_semanal.lunes}}</span>
+      </button>
+      <button class="btn">
+            Martes <span class="badge badge-light"> {{martes}}/{{cantidad_semanal.martes}}</span>
+           </button>
+           <button class="btn">
+                Miercoles <span class="badge badge-light"> {{miercoles}}/{{cantidad_semanal.miercoles}}</span>
+               </button>
+               <button class="btn">
+                    Jueves <span class="badge badge-light"> {{jueves}}/{{cantidad_semanal.jueves}}</span>
+                   </button>
+                   <button class="btn">
+                        viernes <span class="badge badge-light"> {{viernes}}/{{cantidad_semanal.viernes}}</span>
+                       </button>
 <form id="frm-example" method="post"> {% csrf_token %}
 
         <table id="example" class="display" style="width:100%">
@@ -34,7 +50,7 @@
        <tbody>
            {% for x in registro %}
            <tr>
-               <td><input type="checkbox" name="options" value="{{x.pk}}" id=""></td>
+               <td><input type="checkbox" name="options" value="{{x.pk}}" id="" ></td>
                <td>{{x.estudiante.user.username}}</td>
                <td>{{x.estudiante.user.last_name|upper}} {{x.estudiante.user.first_name|upper}}</td>
                <td>{{x.estudiante.carrera|upper}}</td>
@@ -60,7 +76,7 @@
     
     <hr>
 
-    <p><button>Submit</button></p>
+    <p><button class="btn btn-primary">Seleccionar</button></p>
     
     {{request.GET.options}}
  

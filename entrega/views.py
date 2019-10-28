@@ -208,12 +208,63 @@ def configuracion(request):
     return render(request, 'configuracion.html', context)
 
 def estudiantes_registrados(request):
-    registro = Registro_estudiante.objects.filter(estado='PRESELECCION')
+    registro = Registro_estudiante.objects.filter(estado='PRESELECCION').order_by('estudiante__estrato','estudiante__pension_ud','estudiante__pension_de','estudiante__jovenes_accion','estudiante__deportista',)
+    cantidad_semanal = Cantidad_semanal.objects.all().last()
+    beneficiario = Beneficiario.objects.all()
+    lunes = beneficiario.filter(lunes=True).count()
+    martes = beneficiario.filter(martes=True).count()
+    miercoles = beneficiario.filter(miercoles=True).count()
+    jueves = beneficiario.filter(jueves=True).count()
+    viernes = beneficiario.filter(viernes=True).count()
+    total = lunes+martes+miercoles+jueves+viernes
+
+    print(lunes,martes,miercoles,jueves,viernes)
+    lista = ()
+    
     if request.method == 'POST':
         print('entre')
+        
         options = request.POST.getlist('options')
+        if not options:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        
+
+        my_filter_qs = Q()
+        for x in options:
+            my_filter_qs = my_filter_qs | Q(id=int(x))
+            registro_estudiante = Registro_estudiante.objects.filter(my_filter_qs)
+            registro_estudiante.filter(estado='PRESELECCION').order_by('estudiante__estrato','estudiante__pension_ud','estudiante__pension_de','estudiante__jovenes_accion','estudiante__deportista',)
+        
+        for x in registro_estudiante:
+            validar = beneficiario.filter(estudiante=x.estudiante.id,tipo_beneficio__nombre=x.tipo_beneficio)
+        
+        if not validar:
+            for x in registro_estudiante:
+                tipo_beneficio = Tipo_beneficio.objects.get(nombre=x.tipo_beneficio)
+                convocatoria = Convocatoria.objects.all().last()
+                obj = Beneficiario.objects.create(estudiante=x.estudiante,tipo_beneficio=tipo_beneficio,convocatoria=convocatoria)
+            
+                if lunes <= cantidad_semanal.lunes and x.lunes:
+                    obj.lunes = True
+                if martes <= cantidad_semanal.martes and x.martes:
+                    obj.martes = True
+                if miercoles <= cantidad_semanal.miercoles and x.miercoles:
+                    obj.miercoles = True
+                if jueves <= cantidad_semanal.jueves and x.jueves:
+                    obj.jueves = True
+                if viernes <= cantidad_semanal.viernes and x.viernes:
+                    obj.viernes = True
+                obj.save()
+                x.estado = 'SELECCIONADO'
+                x.save()
+                if(not obj.lunes and not obj.martes and not obj.miercoles and not obj.jueves and not obj.viernes):
+                    obj.delete()
+                    x.estado = 'PRESELECCION'
+                    x.save()
+
+                                
         print(options)
-    context={'registro':registro}
+    context={'registro':registro,'lunes':lunes,'martes':martes,'miercoles':miercoles,'jueves':jueves,'viernes':viernes,'total':total,'cantidad_semanal':cantidad_semanal}
     return render(request, 'estudiantes_registrados.html', context)
 
 def beneficiario(request):
