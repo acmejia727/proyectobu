@@ -9,6 +9,8 @@ from . import views
 from django.conf.urls.static import static
 from django.urls import include, path
 
+if settings.DEBUG:
+    import debug_toolbar
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -23,6 +25,7 @@ urlpatterns = [
     path('beneficiario/', views.beneficiario, name='beneficiario'),
     path('accounts/', include('django.contrib.auth.urls')),     
     path('change-password/', auth_views.PasswordChangeView.as_view()),
+    path('__debug__/', include(debug_toolbar.urls)),
     # path('refrigerio/', views.refrigerio, name='refrigerio'),
     # path('almuerzo/', views.almuerzo, name='almuerzo')
  

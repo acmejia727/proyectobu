@@ -145,3 +145,4 @@ class Asistencia(models.Model):
 
     def __str__(self):
         return "Asistencia del beneficiario: "+str(self.beneficiario)+" en el modulo: "+str(self.acceso_modulo)
+

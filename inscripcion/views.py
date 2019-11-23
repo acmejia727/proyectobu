@@ -26,6 +26,7 @@ def perfilEstudiante(request):
 def inscripcion(request):
     print(request.user.id)   
     if request.method == 'POST':
+       
        form = FormInscripcion(request.POST, request.FILES)    
        formestudent = form.save(commit=False)
        formestudent.estudiante = Estudiante.objects.get(user__id=request.user.id)
@@ -35,7 +36,7 @@ def inscripcion(request):
     else:
         form = FormInscripcion()
   
-
+    
     context={'perfil':"perfil",'form':form}
     return render(request, 'inscripcion.html', context)    
 
