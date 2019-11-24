@@ -88,13 +88,13 @@
                                             {%if not asistencia %}
                                                 {%if beneficio%}
                                                 {% for x in beneficio %}
-                                                {%if acceso.modulo.tipo_beneficio_id == x.tipo_beneficio_id %}
+                                                {%if acceso.modulo.tipo_beneficio_id == x.tipo_beneficio_id or x.sede.id == request.session.sede %}
                                                 <a href="/asistencia/{{x.pk}}/" class="confirmation">
                                             <input type="submit" class="btn btn-success" value="ENTREGAR {{x.tipo_beneficio}}">
                                           </a>
                                             <br>
                                             {%else%}
-                                              El beneficio {{x.tipo_beneficio.nombre}} que posee el estudiante no puede ser entregado por este módulo <br>
+                                              El beneficio {{x.tipo_beneficio.nombre}} que posee el estudiante no puede ser entregado por este módulo o en esta sede<br>
                                             {%endif%}
                                             {%endfor%}
                                             {%else%}

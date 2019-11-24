@@ -26,4 +26,4 @@ admin.site.register(Horario)
 admin.site.register(Cantidad_semanal)
 admin.site.register(Asistencia)
 admin.site.register(Registro_estudiante)
-
+admin.site.register(Sede)

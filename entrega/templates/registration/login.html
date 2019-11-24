@@ -57,7 +57,8 @@
                           <a class="float-right" href="/accounts/password_reset/">(Olvidé mi contraseña?)</a>
                         </div>
                       </div>
-                      <select name="beneficio" id="" class="form-control">
+                      <label for="">Tipo de Usuario</label>
+                      <select name="beneficio" class="form-control" id="tipo">
                           <option value="estudiante">Estudiante</option>
                         {%for x in beneficio_list%}
                         <option value="{{x.pk}}">{{x.nombre}}</option>
@@ -66,6 +67,14 @@
                         <option value="admin">Admin</option>
                       
                       </select>
+                      <div class="sede">
+                      <label for="">Sede</label>
+                      <select name="sede"  required class="form-control">
+                          {%for x in sede %}
+                          <option value="{{x.pk}}">{{x.nombre}}</option>                          
+                          {%endfor%}
+                      </select>
+                    </div>
                       <div class="form-row">
                         <div class="form-group col-lg-6">
 
@@ -115,5 +124,42 @@
   </div>
   </div>
   </div>
+
+
+<script>
+
+//Asignamos como valor principal al "select", el valor 1. Es el que se mostrará sin haber seleccionado nada.
+
+
+        $(".sede").css("display","none");
+    
+
+
+//Detectamos los cambios y mostramos uno u otro form
+$('#tipo').change(function() {
+
+  {%for x in beneficio_list%}
+  if ($('#tipo').val() == '{{x.pk}}')
+    {
+        $(".sede").css("display","block");
+    };
+
+    {%endfor%}
+
+    if ($('#tipo').val() == 'estudiante')
+    {
+        $(".sede").css("display","none");
+      
+    };
+    
+    if ($('#tipo').val() == 'admin')
+    {
+        $(".sede").css("display","none");
+     
+    };
+    
+});
+
+</script>
 
 {% endblock %}

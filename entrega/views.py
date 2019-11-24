@@ -18,11 +18,15 @@ from django.db.models.functions import TruncDay,TruncMonth
 def login(request):
     error=False
     beneficio_list = Tipo_beneficio.objects.all()
-    if request.method == 'POST':
-
+    sede_list = Sede.objects.all()
+    if request.method == 'POST':        
         username = request.POST['username']
         password = request.POST['password']
         beneficio = request.POST['beneficio']
+        try:
+            sede = request.POST['beneficio']
+        except:
+            sede = False 
         print(beneficio)
 
         if beneficio == 'estudiante':
@@ -63,6 +67,7 @@ def login(request):
                 if user is not None:
                     request.session['modulo'] = acceso.modulo.tipo_beneficio.nombre
                     request.session['modulo_id'] = acceso.modulo.tipo_beneficio.id
+                    request.session['sede'] = sede
                     auth_login(request, user)
                     return HttpResponseRedirect('/')
                 else:
@@ -74,7 +79,8 @@ def login(request):
             personal = False
             error = 'Este usuario no es un personal autorizado'
         print(username,password,beneficio_list)
-    context={'beneficio_list':beneficio_list,'error':error}
+
+    context={'beneficio_list':beneficio_list,'error':error,'sede':sede_list}
     return render(request, 'registration/login.html', context)
 
 def home(request):
@@ -242,7 +248,7 @@ def estudiantes_registrados(request):
             for x in registro_estudiante:
                 tipo_beneficio = Tipo_beneficio.objects.get(nombre=x.tipo_beneficio)
                 convocatoria = Convocatoria.objects.all().last()
-                obj = Beneficiario.objects.create(estudiante=x.estudiante,tipo_beneficio=tipo_beneficio,convocatoria=convocatoria)
+                obj = Beneficiario.objects.create(estudiante=x.estudiante,tipo_beneficio=tipo_beneficio,convocatoria=convocatoria,sede=Sede.objects.get(sede=x.sede))
             
                 if lunes <= cantidad_semanal.lunes and x.lunes:
                     obj.lunes = True

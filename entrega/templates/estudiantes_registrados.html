@@ -44,7 +44,8 @@
              <th>carrera</th>
              <th>Estrato</th>
              <th>Tipo de beneficio</th>
-             <th>Fecha inscripcion</th>
+             <th>Sede</th>
+             <th>Fecha inscripcion</th>           
           </tr>
        </thead>
        <tbody>
@@ -56,6 +57,7 @@
                <td>{{x.estudiante.carrera|upper}}</td>
                <td>{{x.estudiante.estrato}}</td>
                <td>{{x.tipo_beneficio}}</td>
+               <td>{{x.sede}}</td>
                <td>{{x.fecha_creacion|date:'d M Y'}}</td>
            </tr>
            {% endfor%}

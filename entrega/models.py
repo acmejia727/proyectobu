@@ -11,6 +11,29 @@ SELECCION = [
     ('PRESELECCION', 'PRESELECCION'),
 ]
 
+TIPO_PROVEEDOR = [
+    ('CARNES', 'CARNES'),
+    ('BEBIDAS', 'BEBIDAS'),
+    ('LACTAEO', 'LACTEOS'),
+    ('FRUTAS Y VERDURAS', 'FRUTAS Y VERDURAS'),
+    ('GRANOS', 'GRANOS'),
+    ('OTROS', 'OTROS'),
+]
+
+ESTADO = [
+    ('SOLICITADO', 'SOLICITADO'),
+    ('EN PROCESO', 'EN PROCESO'),
+     ('ENTREGADO', 'ENTEGRADO'),
+     ('RECHAZADO', 'RECHAZADO'),
+]
+
+class Sede(models.Model):
+    nombre = models.CharField(max_length=100)
+    encargado_sede = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.nombre)
+
 
 class Personal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario")
@@ -22,7 +45,6 @@ class Personal(models.Model):
 
     def __str__(self):
         return str(self.user)
-
 
 
 class Estudiante(models.Model):
@@ -52,8 +74,8 @@ class Registro_estudiante(models.Model):
     jueves = models.BooleanField(default=False)
     viernes = models.BooleanField(default=False)
     tipo_beneficio = models.CharField(choices=TIPO_BENEFICIO,max_length=100)
+    sede = models.ForeignKey(Sede, on_delete=models.CASCADE, verbose_name="sede",null=True)
     fecha_creacion = models.DateTimeField(auto_now=True)
-
 
 
 class Cantidad_semanal(models.Model):
@@ -97,6 +119,8 @@ class Beneficiario(models.Model):
     miercoles = models.BooleanField(default=False)
     jueves = models.BooleanField(default=False)
     viernes = models.BooleanField(default=False)
+    sede = models.ForeignKey(Sede, on_delete=models.CASCADE, verbose_name="sede",null=True)
+    fecha_creacion = models.DateTimeField(auto_now=True)
 
     class Meta:
          verbose_name_plural = "Beneficiario"
@@ -145,4 +169,29 @@ class Asistencia(models.Model):
 
     def __str__(self):
         return "Asistencia del beneficiario: "+str(self.beneficiario)+" en el modulo: "+str(self.acceso_modulo)
+
+class Falla(models.Model):
+    cantidad = models.IntegerField()
+    sanciones = models.IntegerField()
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, verbose_name="Estudiante",null=True)
+    estado = models.CharField(max_length=100)
+
+class Registro_falla(models.Model):
+    falla =  models.ForeignKey(Falla, on_delete=models.CASCADE, verbose_name="Falla",null=True)  
+    fecha = models.DateTimeField(auto_now=True)
+
+class Proveedor(models.Model):
+    nombre = models.CharField(max_length=100)
+    nit = models.CharField(max_length=100)
+    encargado = models.CharField(max_length=100)
+    suministro =  models.CharField(max_length=100)
+    tipo =  models.CharField(max_length=100,choices=TIPO_PROVEEDOR)
+
+class Registro_pedido(models.Model):
+    pedido = models.CharField(max_length=100)
+    cantidad = models.IntegerField()
+    estado = models.CharField(max_length=100,choices=ESTADO)
+    comentario = models.CharField(max_length=200)
+    proveedor =  models.ForeignKey(Proveedor, on_delete=models.CASCADE, verbose_name="Proveedor",null=True)  
+    fecha = models.DateTimeField(auto_now=True)
 

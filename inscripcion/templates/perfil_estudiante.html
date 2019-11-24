@@ -70,12 +70,17 @@
                               {% if registro.miercoles %}Miercoles{% endif %}
                               {% if registro.jueves %}Jueves{% endif %}
                               {% if registro.viernes %}Viernes{% endif %}
+                              <br>
+                              <b>Sede: </b>{{registro.sede}} 
+                              <hr>
                               <h6>Ultimas entrega</h6>
                               <table class="table table-sm">
+                         
                               {% for x in asistencia %}
                               <tr>
                                     <td>{{x.fecha}}</td>
                                     <td>{{x.beneficiario.tipo_beneficio}}</td>
+                                    <td>{{x.beneficiario.sede}}</td>
                                 </tr>
                               {% endfor %}
                               </table>
