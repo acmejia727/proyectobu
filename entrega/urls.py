@@ -13,7 +13,7 @@ if settings.DEBUG:
     import debug_toolbar
 
 urlpatterns = [
-    path('', views.home, name='home'),      
+    path('', views.home, name='home'),
     path('convocatoria/', views.convocatoria, name='convocatoria'),
     path('registro/', views.registro, name='registro'),
     path('entrega/', views.entrega, name='entrega'),
@@ -24,12 +24,24 @@ urlpatterns = [
     path('estudiantes_registrados/', views.estudiantes_registrados, name='estudiantes_registrados'), 
     path('beneficiario/', views.beneficiario, name='beneficiario'),
     path('falla/', views.fallas, name='fallas'),
-    path('accounts/', include('django.contrib.auth.urls')),     
+    path('accounts/', include('django.contrib.auth.urls')),
     path('change-password/', auth_views.PasswordChangeView.as_view()),
     path('__debug__/', include(debug_toolbar.urls)),
     # path('refrigerio/', views.refrigerio, name='refrigerio'),
     # path('almuerzo/', views.almuerzo, name='almuerzo')
-    
+
+
+
+    path('proveedor/', views.proveedor, name='proveedor'),
+    path('proveedor_create/', views.proveedor_create, name='proveedor_create'),
+    #path('proveedor_edit/', views.proveedor_edit, name='proveedor_edit'),
+    path('proveedor_edit/<int:id>/', views.proveedor_edit, name='proveedor_edit'),
+    path('proveedor_delete/<int:id>/', views.proveedor_delete, name='proveedor_delete'),
+
+
+
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
