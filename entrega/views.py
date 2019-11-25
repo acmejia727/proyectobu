@@ -143,6 +143,43 @@ def registro(request):
 
     return render(request, 'registro.html', context)
 
+def pedido(request):
+    if request.method == 'POST':
+        pedido = PedidoForm(request.POST, request.FILES)
+
+        if pedido.is_valid():
+            user = pedido.save()
+            return HttpResponseRedirect('/pedido/')
+    else:
+        pedido = PedidoForm()
+
+    context={'pedido': pedido}
+
+    return render(request, 'pedido.html', context)
+
+def editar_pedido(request, id):
+    instance = Registro_pedido.objects.get(pk=id)
+    if request.method == 'POST':
+        editar_pedido = EditPedidoForm(request.POST,instance=instance)
+        
+        if editar_pedido.is_valid():
+            editar_pedido.save()
+            return HttpResponseRedirect('/editar_pedido/'+str(id)+'/')            
+    else:
+        editar_pedido = EditPedidoForm(instance=instance)        
+    context = {'editar_pedido':editar_pedido}
+    return render(request, 'editar_pedido.html', context)
+
+def eliminar_pedido(request, id):
+    instance = Registro_pedido.objects.get(id=id)
+    instance.delete()
+    return HttpResponseRedirect('/mostrar_pedido/')  
+
+def mostrar_pedido(request):
+    mostrar_pedido = Registro_pedido.objects.all()
+    context={'mostrar_pedido':mostrar_pedido}
+    return render(request, 'mostrar_pedido.html', context)
+
 @login_required(login_url='/')
 def entrega(request):
     #buscador de estudiantes

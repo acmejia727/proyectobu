@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pedidos{% endblock title %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
+
+<div class="content">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Realizar Pedido</h5>
+              </div>
+              <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                  {{pedido.as_p}}
+                     <div class="col-md-4 px-1">
+                       <div class="button-container">
+                        <input type="submit" class="btn btn-primary" onclick="mensaje()" value="Registrar">
+                       </div>
+                     </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-user">
+        
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>     
+          function mensaje(){
+              Swal.fire(
+                'Se ha generado tu pedido exitosamente!',
+                'success'
+              )
+      }
+          
+      </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+
+{% endblock %}
