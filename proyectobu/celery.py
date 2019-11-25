@@ -24,6 +24,7 @@ from celery.schedules import crontab
 app.conf.beat_schedule = {
     'add-every-minute-contrab': {
         'task': 'registra_falla',
-        'schedule': crontab(),    
+        'schedule': crontab(minute='*/2'),
+        'args': ("DjangoPY",)  # set the args  
     },
     }

@@ -145,6 +145,7 @@ def registro(request):
 
 @login_required(login_url='/')
 def entrega(request):
+
     #buscador de estudiantes
     try:
         busqueda = request.GET['busqueda']        
@@ -164,7 +165,13 @@ def entrega(request):
     try:
         cod = request.GET['id']        
     except:
-        cod = False  
+        cod = False
+
+    try:
+        falla = Falla.objects.get(estudiante_id=int(cod))
+    except:
+        falla = False
+      
     #Escojer estudiantes
     try:
         estudiante_result = Estudiante.objects.get(pk=int(cod))
@@ -187,7 +194,7 @@ def entrega(request):
     except:
         beneficio_est = False
         asistencia = False
-    context={'estudiante':estudiante,'estudiante_result':estudiante_result,'beneficio':beneficio,'acceso':acceso,'asistencia':asistencia}
+    context={'estudiante':estudiante,'estudiante_result':estudiante_result,'beneficio':beneficio,'acceso':acceso,'asistencia':asistencia,'falla':falla}
     return render(request, 'entrega.html', context)
 def asistencia(request,id):
     try:
@@ -277,3 +284,8 @@ def beneficiario(request):
     beneficiario = Beneficiario.objects.all()
     context={'beneficiario':beneficiario}
     return render(request, 'beneficiario.html', context)
+
+def fallas(request):
+    falla= Falla.objects.all()
+    context={'falla':falla}
+    return render(request, 'falla.html', context)   

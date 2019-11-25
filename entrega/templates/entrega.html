@@ -85,6 +85,13 @@
                                           <hr>
                                           
                                           <div class="button-container">
+                                            {%if falla.estado == 'Indefinidad' or falla.estado == '30 dias'   %}
+                                            
+                                            
+                                            <p><b>Estudiante sancionado.</b> <br>Tipo de sanción: {{falla.estado}}</p>
+
+                                            {%else%}
+
                                             {%if not asistencia %}
                                                 {%if beneficio%}
                                                 {% for x in beneficio %}
@@ -107,6 +114,9 @@
                                                 <script type="text/javascript">countDown();</script>
                                                 </span>
                                                 <a href="/entrega/">Volver</a>
+                                            {%endif%}
+                         
+
                                             {%endif%}
                                         </div>
                                         </div>
@@ -215,6 +225,4 @@
   });
 </script>
 
-
-   
 {% endblock %}

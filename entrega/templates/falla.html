@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registro Preseleccionados{% endblock title %}
+
+{% block content %}
+
+ <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Lista de Beneficiados</h5>
+              </div>
+              <div class="card-body">
+
+
+           
+        <table class="table" style="width:100%">
+       <thead>
+          <tr>
+        
+             <th>Código</th>
+             <th>Nombre</th>
+             <th>carrera</th>
+             <th>Estrato</th>   
+             <th>Cantidad de fallas</th>
+             <th>Sanciones</th>
+             <th>Estado</th>
+          </tr>
+       </thead>
+       <tbody>
+           {% for x in falla %}
+           <tr>
+               
+               <td>{{x.estudiante.user.username}}</td>
+               <td>{{x.estudiante.user.last_name|upper}} {{x.estudiante.user.first_name|upper}}</td>
+               <td>{{x.estudiante.carrera|upper}}</td>
+               <td>{{x.estudiante.estrato}}</td>
+              
+               <td>{{x.cantidad}}</td>
+               <td>{{x.sanciones}}</td>
+               <td>{{x.estado}}</td>
+            </tr>
+            {% endfor%}
+          
+        </tbody>
+     
+     </table>
+     
+ 
+ 
+ 
+ </div>
+ </div>
+           </div>
+         </div>
+  </div>
+  
+ 
+ {% endblock %}

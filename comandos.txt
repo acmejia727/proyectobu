@@ -1,0 +1,3 @@
+celery -A proyectobu worker -l info -P gevent
+celery -A proyectobu beat -l info
+

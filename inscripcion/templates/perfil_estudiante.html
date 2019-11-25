@@ -73,6 +73,12 @@
                               <br>
                               <b>Sede: </b>{{registro.sede}} 
                               <hr>
+                              <h6>Fallas</h6>
+                              <b>Fallas</b> {{falla.cantidad}} <br>
+                              <b>Sanciones</b> {{falla.sanciones}} <br>
+                              <b>Estado</b> {{falla.estado}} <br>
+
+                              <hr>
                               <h6>Ultimas entrega</h6>
                               <table class="table table-sm">
                          
@@ -84,6 +90,20 @@
                                 </tr>
                               {% endfor %}
                               </table>
+                              
+                              <hr>
+                              <h6>Registro de fallas</h6>
+                              <table class="table table-sm">
+                         
+                              {% for x in reg_falla %}
+                              <tr>
+                                    <td>{{x.fecha}}</td>                                 
+                                </tr>
+                              {% endfor %}
+                              </table>
+                              
+
+
                           </div>
                           </div>
               </div>

@@ -89,6 +89,12 @@
               <p>Registro de personal</p>
             </a>
           </li>
+          <li {%if request.path == '/falla/' %} class="active" {%endif%}>
+            <a href="/falla/">
+              <i class="fas fa-user-plus"></i>
+              <p>Registro de fallas</p>
+            </a>
+          </li>
           {%endif%}
           
            <li {%if request.path == '/entrega/' %} class="active" {%endif%}>
@@ -103,6 +109,7 @@
               <p>Estudiantes Registrados</p>
             </a>
           </li>
+
           {%endif%}
           {% if user.username %}
           <li class="active-pro">

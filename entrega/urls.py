@@ -13,7 +13,7 @@ if settings.DEBUG:
     import debug_toolbar
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.home, name='home'),      
     path('convocatoria/', views.convocatoria, name='convocatoria'),
     path('registro/', views.registro, name='registro'),
     path('entrega/', views.entrega, name='entrega'),
@@ -23,12 +23,13 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),   
     path('estudiantes_registrados/', views.estudiantes_registrados, name='estudiantes_registrados'), 
     path('beneficiario/', views.beneficiario, name='beneficiario'),
+    path('falla/', views.fallas, name='fallas'),
     path('accounts/', include('django.contrib.auth.urls')),     
     path('change-password/', auth_views.PasswordChangeView.as_view()),
     path('__debug__/', include(debug_toolbar.urls)),
     # path('refrigerio/', views.refrigerio, name='refrigerio'),
     # path('almuerzo/', views.almuerzo, name='almuerzo')
- 
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

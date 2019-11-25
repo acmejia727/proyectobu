@@ -175,6 +175,7 @@ class Falla(models.Model):
     sanciones = models.IntegerField()
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, verbose_name="Estudiante",null=True)
     estado = models.CharField(max_length=100)
+    fecha = models.DateTimeField(auto_now=True,null=True)
 
 class Registro_falla(models.Model):
     falla =  models.ForeignKey(Falla, on_delete=models.CASCADE, verbose_name="Falla",null=True)  

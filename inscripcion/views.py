@@ -9,6 +9,11 @@ from .forms import *
 @login_required(login_url='/')
 def perfilEstudiante(request):
     try:
+        falla = Falla.objects.get(estudiante__user__id=request.user.id)
+    except:
+        falla = False
+
+    try:
         registro = Registro_estudiante.objects.get(estudiante__user__id=request.user.id)    
     except:
         registro = False
@@ -16,10 +21,11 @@ def perfilEstudiante(request):
         perfil = Estudiante.objects.get(user__id=request.user.id)
     except:
         perfil = False
+    reg_falla =  Registro_falla.objects.filter(falla__estudiante__user__id=request.user.id)[:5]
     beneficio = Beneficiario.objects.filter(estudiante__user__id=request.user.id)
     asistencia = Asistencia.objects.filter(beneficiario__estudiante__user__id=request.user.id).order_by('-fecha')[:10]
     # entregado = Entrega.objects.all()
-    context={'perfil':perfil,'beneficio':beneficio,'registro':registro,'asistencia':asistencia}
+    context={'perfil':perfil,'beneficio':beneficio,'registro':registro,'asistencia':asistencia,'reg_falla':reg_falla,'falla':falla}
     return render(request, 'perfil_estudiante.html', context)
 
 @login_required(login_url='/')
