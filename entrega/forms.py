@@ -34,6 +34,34 @@ class UsuarioForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'password']
 
 
+class PedidoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+    class Meta:
+        model = Registro_pedido
+        fields = '__all__'
+
+class EditPedidoForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+    class Meta:
+        model = Registro_pedido
+        fields = ['estado', 'comentario']
+
+
+
 
 class ProfileForm(forms.ModelForm):
 

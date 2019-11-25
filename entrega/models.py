@@ -187,6 +187,10 @@ class Proveedor(models.Model):
     suministro =  models.CharField(max_length=100)
     tipo =  models.CharField(max_length=100,choices=TIPO_PROVEEDOR)
 
+    def __str__(self):
+        return str(self.nombre)+" - "+str(self.tipo)
+
+    
 class Registro_pedido(models.Model):
     pedido = models.CharField(max_length=100)
     cantidad = models.IntegerField()
@@ -194,4 +198,6 @@ class Registro_pedido(models.Model):
     comentario = models.CharField(max_length=200)
     proveedor =  models.ForeignKey(Proveedor, on_delete=models.CASCADE, verbose_name="Proveedor",null=True)  
     fecha = models.DateTimeField(auto_now=True)
+
+
 
