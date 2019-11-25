@@ -28,6 +28,18 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     # path('refrigerio/', views.refrigerio, name='refrigerio'),
     # path('almuerzo/', views.almuerzo, name='almuerzo')
+
+
+
+    path('proveedor/', views.proveedor, name='proveedor'),
+    path('proveedor_create/', views.proveedor_create, name='proveedor_create'),
+    #path('proveedor_edit/', views.proveedor_edit, name='proveedor_edit'),
+    path('proveedor_edit/<int:id>/', views.proveedor_edit, name='proveedor_edit'),    
+    path('proveedor_delete/<int:id>/', views.proveedor_delete, name='proveedor_delete'),    
+
+
+    
+
  
 ]
 

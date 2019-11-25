@@ -277,3 +277,59 @@ def beneficiario(request):
     beneficiario = Beneficiario.objects.all()
     context={'beneficiario':beneficiario}
     return render(request, 'beneficiario.html', context)
+
+
+def proveedor(request):
+    proveedor = Proveedor.objects.all()
+    context={'proveedor':proveedor}
+    return render(request, 'proveedor.html', context)
+
+
+"""def proveedor_create(request):
+    formproveedor = ProveedorForm()
+    context={'formproveedor': formproveedor}
+    return render(request, 'proveedor_create.html', context)
+"""
+
+
+
+def proveedor_create(request):
+   
+
+
+    if request.method == 'POST':
+        formproveedor = ProveedorForm(request.POST, request.FILES)
+
+        if formproveedor.is_valid():
+            proveedor = formproveedor.save(commit=False)
+                   
+            proveedor.save() 
+            return HttpResponseRedirect('/proveedor')
+    else:
+        formproveedor = ProveedorForm()
+
+    context={'formproveedor': formproveedor}
+
+    return render(request, 'proveedor_create.html', context)
+
+
+def proveedor_edit(request, id):
+    formproveedor = ProveedorForm()
+    instance = Proveedor.objects.get(pk=id)
+    if request.method == 'POST':
+        formproveedor2 = ProveedorForm(request.POST,instance=instance)
+        
+        if formproveedor2.is_valid():
+            formproveedor2.save()
+            #obj = Propietario.objects.all().latest('pk')
+            return HttpResponseRedirect('/proveedor_edit/'+str(id)+'/')      
+            
+    else:
+        formproveedor2 = ProveedorForm(instance=instance)        
+    context = {'formproveedor':formproveedor2}
+    return render(request, 'proveedor_edit.html', context)
+    
+def proveedor_delete(request, id):
+    instance = Proveedor.objects.get(id=id)
+    instance.delete()
+    return HttpResponseRedirect('/proveedor/')
